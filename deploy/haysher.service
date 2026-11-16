@@ -1,0 +1,21 @@
+# The pool's systemd unit, as /etc/systemd/system/haysher.service. deploy.sh restarts it. It runs as the
+# haysher user, in the bitcoin group so it can read the node's RPC cookie, with the config at
+# /opt/haysher/config/pool.toml.
+[Unit]
+Description=Haysher mining pool
+After=network-online.target bitcoind.service
+Wants=network-online.target bitcoind.service
+
+[Service]
+User=haysher
+Group=haysher
+SupplementaryGroups=bitcoin
+WorkingDirectory=/opt/haysher
+ExecStart=/opt/haysher/haysher serve --config /opt/haysher/config/pool.toml
+Restart=on-failure
+RestartSec=5
+LimitNOFILE=65536
+CPUWeight=200
+
+[Install]
+WantedBy=multi-user.target
