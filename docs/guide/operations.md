@@ -20,29 +20,6 @@ answered when the pool stopped is submitted again at the next start.
 
 Miners reconnect by themselves after a restart.
 
-## Brand Cutover
-
-This release requires a coordinated cutover. Stop the service and every command using its database, then
-back up the whole data directory, including the database and its `-wal` and `-shm` sidecars, `handle.key`, and
-the authority keys. Migrate the existing database to `haysher.sqlite3` in the configured `data_dir` before
-starting the new binary. Checkpoint the stopped database with SQLite before renaming it; preserve any
-remaining sidecars under the new basename. Keep the keys and other data files in place.
-
-Rename retained snapshots to `haysher-<Unix milliseconds>.sqlite3` and update off-host backup cleanup jobs.
-Storage and retention recognize only the Haysher filenames. An unmigrated database is not opened by the new
-binary, so complete the migration before starting it.
-
-Deploy the binary, `haysher_*` metric queries, Alloy's `haysher` scrape job, external health-probe labels,
-and Grafana's `haysher` folder, rule group, and dashboard identifiers together. Retire the previous monitoring
-resources to avoid duplicate alerts. Historical metric series keep their recorded names. The Grafana push
-script reads `~/haysher-keys/grafana.token` by default; move the token with its existing permissions or set
-`GRAFANA_TOKEN_FILE` to its current path.
-
-Install this cutover manually while the service is stopped. Automatic binary rollback cannot reverse a
-database rename. Resume automatic deployment when both the installed binary and its rollback copy use the
-new filenames. To undo the cutover, stop every database user and reverse the binary, database and sidecar,
-snapshot, and monitoring changes together.
-
 ## Deploying a New Release
 
 [deploy.sh](../../deploy.sh) builds the release binary on your machine and updates a server that already
@@ -327,9 +304,9 @@ cause in the log, fix it, and restart; the check runs again at every start.
 
 ## Rotating the Authority Key
 
-Every Stratum V2 miner pins the pool's authority key, and a pinned miner accepts that one key alone, so a new
-key is a cutover that each miner's owner follows by hand. Rotate it when it may have leaked. The pool shows the
-next key on the overview ahead of the switch, so miners can prepare:
+Every Stratum V2 miner pins the pool's authority key, and a pinned miner accepts that one key alone. Each
+miner's owner updates its pin by hand when the key changes. Rotate it when it may have leaked. The pool
+shows the next key on the overview ahead of the switch, so miners can prepare:
 
 1. Make the next key, `sv2-authority.next.key` in the data directory, mode 600, as the user the pool runs as.
    It prints the next key's public key; run again, it keeps the key and prints it again:

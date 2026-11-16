@@ -481,7 +481,5 @@ including the block height, tag, enabled worker names, extranonces, and push opc
 match a mining-pool tag in the shipped snapshot are omitted from the coinbase; their login is unaffected.
 The snapshot is shipped in `src/mining/pool-tags.json` and is not fetched at runtime.
 
-The database is `haysher.sqlite3`, and new snapshots use the `haysher-` prefix. When upgrading an older
-installation, follow the [cutover procedure](operations.md#brand-cutover) before
-starting the new binary. Copy the existing data directory, including its authority and handle keys, when
-moving an installation.
+The database is `haysher.sqlite3`, and snapshots use the `haysher-` prefix. Copy the existing data directory,
+including its authority and handle keys, when moving an installation.
