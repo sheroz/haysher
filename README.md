@@ -1,6 +1,6 @@
 # HAYSHER
 
-**Status: beta.** 
+**Status: beta.**
 
 ## Multi-Mode Mining
 
