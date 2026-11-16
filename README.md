@@ -1,11 +1,10 @@
 # HAYSHER
 
-**Status: beta.** Haysher runs pools on mainnet, but it is young: test a release on regtest before you
-run it, and expect changes between releases.
+**Status: beta.** 
 
 ## Multi-Mode Mining
 
-**HAYSHER** is Bitcoin mining operations software that can run any number of solo, pooled, and hybrid
+Haysher is bitcoin mining operations software that can run any number of solo, pooled, and hybrid
 mining pools side by side, each on its own Stratum ports, allowing operators to select or switch between them
 according to their needs.
 
@@ -49,7 +48,3 @@ The [guide](docs/guide/README.md), also published at <https://haysher.com/docs/>
   testing Haysher, and proposing a change.
 * [Architecture](docs/guide/architecture/README.md): how the code works, its parts, and why it is built this
   way, for developers and contributors.
-
-## License
-
-[MIT](LICENSE).
